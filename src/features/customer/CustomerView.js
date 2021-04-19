@@ -24,7 +24,7 @@ export default function CustomerView() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div style={{ padding: '1rem' }}>
       <CustomerSidebar />
       <CustomerOrders />
     </div>
@@ -34,7 +34,13 @@ export default function CustomerView() {
 function CustomerSidebar() {
   const customer = useSelector(selectCustomer);
   return (
-    <div>
+    <div
+      style={{
+        marginBottom: '1rem',
+        padding: '1rem',
+        border: '1px solid black',
+      }}
+    >
       <p>{customer.username}</p>
       <p>{customer.email}</p>
     </div>
@@ -44,7 +50,13 @@ function CustomerSidebar() {
 function CustomerOrders() {
   const orders = useSelector(selectOrders);
   return (
-    <div>
+    <div
+      style={{
+        marginBottom: '1rem',
+        padding: '1rem',
+        border: '1px solid black',
+      }}
+    >
       {orders.map((o) => (
         <p key={o.id}>{o.item}</p>
       ))}

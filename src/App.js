@@ -12,8 +12,10 @@ export default function App() {
     <Router>
       <GlobalLoader show={show} />
 
-      <nav>
-        <Link to="/customer">Customer</Link>
+      <nav style={{ padding: '1rem' }}>
+        <Link to="/customer" style={{ marginRight: '1rem' }}>
+          Customer
+        </Link>
         <Link to="/admin">Admin</Link>
       </nav>
 
