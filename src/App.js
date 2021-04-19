@@ -1,11 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import GlobalLoader from './global/components/GlobalLoader';
+import CustomerView from './features/customer/CustomerView';
 
 export default function App() {
+  const show = useSelector((state) => state.globalLoader);
+
   return (
     <>
-      <h1>under construction</h1>
-      <GlobalLoader />
+      <GlobalLoader show={show} />
+      <CustomerView />
     </>
   );
 }
