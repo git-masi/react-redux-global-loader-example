@@ -8,9 +8,9 @@ import { mockRequest } from '../../utils/dummyData';
 
 const id = shortid.generate();
 
-export const customerOrderSlice = createSlice({
-  name: 'customerOrders',
-  initialState: { hasError: false, orders: [] },
+export const adminSettingsSlice = createSlice({
+  name: 'customerSettings',
+  initialState: { hasError: false, settings: {} },
   reducers: {
     getDataStart: (state) => {
       state.hasError = false;
@@ -19,8 +19,8 @@ export const customerOrderSlice = createSlice({
       state.hasError = true;
     },
     getDataSuccess: (state, action) => {
-      const { payload = [] } = action;
-      state.orders = payload;
+      const { payload = {} } = action;
+      state.settings = payload;
     },
   },
 });
@@ -29,24 +29,25 @@ const {
   getDataStart,
   getDateFailure,
   getDataSuccess,
-} = customerOrderSlice.actions;
+} = adminSettingsSlice.actions;
 
-export const selectOrders = (state) => state.customerOrders.orders;
+export const selectSettings = (state) => state.adminSettings.settings;
 
-export default customerOrderSlice.reducer;
+export default adminSettingsSlice.reducer;
 
-export function fetchCustomerOrders() {
+export function fetchAdminSettings() {
   return async (dispatch) => {
     try {
       dispatch(showLoader(id));
 
       dispatch(getDataStart());
 
-      const orders = await mockRequest([
-        { id: 1, item: 'fat pills', total: 1337 },
-      ]);
+      const settings = await mockRequest({
+        darkmode: true,
+        accountEnabled: true,
+      });
 
-      dispatch(getDataSuccess(orders));
+      dispatch(getDataSuccess(settings));
 
       dispatch(hideLoader(id));
     } catch (error) {
@@ -57,7 +58,7 @@ export function fetchCustomerOrders() {
   };
 }
 
-export function clearCustomerOrdersLoader() {
+export function clearAdminSettingsLoader() {
   return (dispatch) => {
     dispatch(hideLoader(id));
   };

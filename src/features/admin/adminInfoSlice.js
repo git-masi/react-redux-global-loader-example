@@ -8,9 +8,9 @@ import { mockRequest } from '../../utils/dummyData';
 
 const id = shortid.generate();
 
-export const customerOrderSlice = createSlice({
-  name: 'customerOrders',
-  initialState: { hasError: false, orders: [] },
+export const adminInfoSlice = createSlice({
+  name: 'customerInfo',
+  initialState: { hasError: false, admin: {} },
   reducers: {
     getDataStart: (state) => {
       state.hasError = false;
@@ -19,34 +19,31 @@ export const customerOrderSlice = createSlice({
       state.hasError = true;
     },
     getDataSuccess: (state, action) => {
-      const { payload = [] } = action;
-      state.orders = payload;
+      const { payload = {} } = action;
+      state.admin = payload;
     },
   },
 });
 
-const {
-  getDataStart,
-  getDateFailure,
-  getDataSuccess,
-} = customerOrderSlice.actions;
+const { getDataStart, getDateFailure, getDataSuccess } = adminInfoSlice.actions;
 
-export const selectOrders = (state) => state.customerOrders.orders;
+export const selectAdmin = (state) => state.adminInfo.admin;
 
-export default customerOrderSlice.reducer;
+export default adminInfoSlice.reducer;
 
-export function fetchCustomerOrders() {
+export function fetchAdminInfo() {
   return async (dispatch) => {
     try {
       dispatch(showLoader(id));
 
       dispatch(getDataStart());
 
-      const orders = await mockRequest([
-        { id: 1, item: 'fat pills', total: 1337 },
-      ]);
+      const admin = await mockRequest({
+        id: shortid.generate(),
+        access: 'superAdmin',
+      });
 
-      dispatch(getDataSuccess(orders));
+      dispatch(getDataSuccess(admin));
 
       dispatch(hideLoader(id));
     } catch (error) {
@@ -57,7 +54,7 @@ export function fetchCustomerOrders() {
   };
 }
 
-export function clearCustomerOrdersLoader() {
+export function clearAdminInfoLoader() {
   return (dispatch) => {
     dispatch(hideLoader(id));
   };
