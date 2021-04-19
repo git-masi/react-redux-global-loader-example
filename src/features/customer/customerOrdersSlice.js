@@ -43,7 +43,7 @@ export function fetchCustomerOrders() {
       dispatch(getDataStart());
 
       const orders = await mockRequest([
-        { id: 1, item: 'fat pills', total: 1337 },
+        { id: 1, item: 'master sword', total: 1337 },
       ]);
 
       dispatch(getDataSuccess(orders));

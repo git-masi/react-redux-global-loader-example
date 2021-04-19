@@ -58,7 +58,9 @@ function CustomerOrders() {
       }}
     >
       {orders.map((o) => (
-        <p key={o.id}>{o.item}</p>
+        <p key={o.id}>
+          {o.item}: ${o.total}
+        </p>
       ))}
     </div>
   );
