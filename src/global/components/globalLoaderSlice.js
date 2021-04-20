@@ -1,28 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-let registry = [];
-
 export const globalLoaderSlice = createSlice({
-  name: 'showGlobalLoader',
-  initialState: false,
+  name: 'globalLoader',
+  initialState: { showLoader: false, registeredEvents: [] },
   reducers: {
     showLoader: (state, action) => {
-      // console.log('show ', { action });
-      // console.log('show ', { registry });
       const { payload } = action;
       if (!payload) return;
-      registry.push(payload);
-      if (!state) return true;
-      return state;
+      const newEvents = [...state.registeredEvents, payload];
+      if (newEvents.length > 0 && !state.showLoader) state.showLoader = true;
+      state.registeredEvents = newEvents;
     },
     hideLoader: (state, action) => {
-      // console.log('hide ', { action });
-      // console.log('hide ', { registry });
       const { payload } = action;
       if (!payload) return;
-      registry = registry.filter((item) => item !== payload);
-      if (registry.length === 0 && state) return false;
-      return state;
+      const newEvents = state.registeredEvents.filter(
+        (item) => item !== payload
+      );
+      state.registeredEvents = newEvents;
+      if (newEvents.length === 0 && state.showLoader) state.showLoader = false;
     },
   },
 });
@@ -33,6 +29,7 @@ export const {
   hideLoader,
 } = globalLoaderSlice.actions;
 
-export const currentGlobalLoaderState = (state) => state.showGlobalLoader;
+export const currentGlobalLoaderState = (state) =>
+  state.globalLoader.showLoader;
 
 export default globalLoaderSlice.reducer;
